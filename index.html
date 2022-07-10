@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Covid Cases</title>
+</head>
+<body>
+    <header>
+        <div class="main">
+            <logo>
+                <i class="fa-solid fa-virus-covid"></i>
+            </logo>
+            Fetching Data Using Covid API
+        </div>
+    </header>
+    <div id="content">
+            <h3>!Today's Covid Cases!</h3>
+            <hr>
+    </div>
+    <script>
+      const api_url = "https://api.covid19api.com/summary";
+
+      let getAPIData = (url) => {
+        fetch(url)
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            console.log(data);
+            let country = data.Countries[77].Country;
+            let totalCases = data.Countries[77].TotalConfirmed;
+            let totalDeaths = data.Countries[77].TotalDeaths;
+            let newCase = data.Countries[77].NewConfirmed;
+            let newDeaths = data.Countries[77].NewDeaths;
+            let date = data.Countries[77].NewDeaths;
+            let today = new Date().toDateString();
+            displayData(
+              country,
+              totalCases,
+              totalDeaths,
+              newCase,
+              newDeaths,
+              today
+            );
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      getAPIData(api_url);
+
+      function displayData(c, tc, td, nc, nd, t) {
+        let pre = document.createElement("pre");
+        console.log(tc);
+        pre.innerHTML = `<span style="color:white;">Country Name: </span> ${c}\n<span style="color:white;">Date: </span> ${t}\n<span style="color:white;">Total Cases: </span> ${tc}\n<span style="color:white;">Total Deaths: </span>${td}\n<span style="color:white;">New Cases: </span>${nc}\n<span style="color:white;">New Deaths: </span>${nd}`;
+
+        document.getElementById("content").appendChild(pre);
+      }
+    </script>    
+    <footer>
+        <div class="last">
+            Website data is fetched from <a href="https://www.mohfw.gov.in/#">Ministry of Health and Family Welfare</a>
+        </div>
+    </footer>
+    
+</body>
+</html>
